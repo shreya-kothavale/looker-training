@@ -7,6 +7,13 @@ view: session_level {
   WHERE entry_rn =1
   ;;
  }
+  dimension: session_id {
+    type: string
+  }
+
+  dimension: entry_intent {
+    type: string
+  }
 }
 
 view: exit_intent {
@@ -18,6 +25,10 @@ view: exit_intent {
       WHERE exit_rn =1
       ;;
   }
+
+  dimension: exit_intent {
+    type: string
+  }
 }
 
 view: second_last_intent {
@@ -28,6 +39,10 @@ view: second_last_intent {
       FROM dialogflow_cleaned_logs )
       WHERE exit_rn =2
       ;;
+  }
+
+  dimension: second_last_intent {
+    type: string
   }
 }
 
@@ -60,4 +75,10 @@ explore: session_level {
     relationship: one_to_one
     sql_on: session_level.session_id = conversation_length.session_id ;;
   }
+
+
+  # measure: avg_session_duration {
+  #   type: average
+  #   sql: ${} ;;
+  # }
 }

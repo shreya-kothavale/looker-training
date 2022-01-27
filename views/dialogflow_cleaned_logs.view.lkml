@@ -115,8 +115,44 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.week_number ;;
   }
 
+  dimension: sentiment_bucket {
+    type: tier
+    tiers: [-1,-0.6,-0.2,0.2,0.6,1]
+    sql: ${sentiment_score} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: []
+  }
+
+  measure: total_sessions {
+    type: count_distinct
+    sql: ${session_id} ;;
+  }
+
+  measure: average_queries_per_session {
+    type: number
+    sql: count(${query_text})/${total_sessions} ;;
+  }
+
+  measure: average_session_per_day {
+    type: number
+    sql: ${total_sessions}/count(distinct ${time_date}) ;;
+  }
+
+  measure: average_sentiment_score {
+    type: average
+    sql: ${sentiment_score};;
+  }
+
+  measure: average_intent_detection_confidence {
+    type: average
+    sql: ${intent_detection_confidence};;
+  }
+
+  measure: success_rate {
+    type: number
+    sql: sum(if(${is_fallback},0,1))/${count} ;;
   }
 }
