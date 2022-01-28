@@ -136,9 +136,14 @@ view: dialogflow_cleaned_logs {
     sql: count(${query_text})/${total_sessions} ;;
   }
 
+  measure: date_count {
+    type: count_distinct
+    sql: ${time_stamp_date} ;;
+  }
+
   measure: average_session_per_day {
     type: number
-    sql: ${total_sessions}/count(distinct ${time_date}) ;;
+    sql: ${total_sessions}/${date_count} ;;
   }
 
   measure: average_sentiment_score {

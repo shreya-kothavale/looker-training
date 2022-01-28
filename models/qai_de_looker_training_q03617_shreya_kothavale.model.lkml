@@ -20,19 +20,19 @@ explore: session_level {
   join: exit_intent {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${session_level.session_id} = ${exit_intent.exit_intent} ;;
+    sql_on: session_level.session_id = exit_intent.session_id ;;
     # fields: [exit_intent]
   }
   join: second_last_intent {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${exit_intent.exit_intent} = ${second_last_intent.session_id} ;;
+    sql_on: session_level.session_id = second_last_intent.session_id ;;
     # fields: [second_last_intent]
   }
   join: conversation_length {
     type: left_outer
     relationship: one_to_one
-    sql_on: ${second_last_intent.session_id} = ${conversation_length.session_id} ;;
+    sql_on: session_level.session_id = conversation_length.session_id ;;
     # fields: []
   }
 }
