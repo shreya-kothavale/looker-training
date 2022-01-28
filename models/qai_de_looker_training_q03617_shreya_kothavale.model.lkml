@@ -1,7 +1,8 @@
 connection: "qai_de_looker_training_q03617_shreya_kothavale"
 
 # include all the views
-include: "/views/**/*.view"
+include: "/views/**/dialogflow_cleaned_logs.view"
+include: "/views/**/session_level.view"
 
 datagroup: qai_de_looker_training_q03617_shreya_kothavale_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -11,3 +12,24 @@ datagroup: qai_de_looker_training_q03617_shreya_kothavale_default_datagroup {
 persist_with: qai_de_looker_training_q03617_shreya_kothavale_default_datagroup
 
 explore: dialogflow_cleaned_logs {}
+
+explore: session_level {
+  join: exit_intent {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: session_level.session_id = exit_intent.session_id ;;
+    # fields: [exit_intent]
+  }
+  join: second_last_intent {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: session_level.session_id = second_last_intent.session_id ;;
+    # fields: [second_last_intent]
+  }
+  join: conversation_length {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: session_level.session_id = conversation_length.session_id ;;
+    # fields: []
+  }
+}
