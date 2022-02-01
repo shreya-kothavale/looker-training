@@ -69,6 +69,7 @@ view: dialogflow_cleaned_logs {
 
   dimension: response_id {
     type: string
+    primary_key: yes
     sql: ${TABLE}.response_ID ;;
   }
 
@@ -115,10 +116,19 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.week_number ;;
   }
 
+  # dimension: sentiment_bucket {
+  #   type: tier
+  #   tiers: [-1,-0.6,-0.2,0.2,0.6,1]
+  #   sql: ${sentiment_score} ;;
+  # }
+
   dimension: sentiment_bucket {
-    type: tier
-    tiers: [-1,-0.6,-0.2,0.2,0.6,1]
-    sql: ${sentiment_score} ;;
+    type: string
+    sql: CASE WHEN magnitude > 3 and sentiment_score between 0.25 and 1 THEN '1. Positive'
+          WHEN magnitude <= 3 and sentiment_score between 0.25 and 1 THEN '2. Partially Positive'
+          WHEN magnitude <= 3 and sentiment_score between -1 and -0.25 THEN '4. Partially Negative'
+          WHEN magnitude > 3 and sentiment_score between -1 and -0.25 THEN '5. Negative'
+          ELSE "3. Neutral" END ;;
   }
 
   measure: count {

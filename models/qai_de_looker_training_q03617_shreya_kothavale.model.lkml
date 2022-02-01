@@ -14,7 +14,14 @@ datagroup: qai_de_looker_training_q03617_shreya_kothavale_default_datagroup {
 
 persist_with: qai_de_looker_training_q03617_shreya_kothavale_default_datagroup
 
-explore: dialogflow_cleaned_logs {}
+explore: dialogflow_cleaned_logs {
+  join: conversation_length {
+    type: full_outer
+    relationship: one_to_many
+    sql_on: dialogflow_cleaned_logs.session_id = conversation_length.session_id ;;
+    fields: [call_duration_bucket, session_id]
+  }
+}
 
 explore: session_level {
   join: exit_intent {
