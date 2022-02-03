@@ -39,7 +39,7 @@ view: conversation_length {
       quarter,
       year
     ]
-    convert_tz: no
+    convert_tz: yes
     datatype: datetime
   }
 
