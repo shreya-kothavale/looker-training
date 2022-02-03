@@ -6,6 +6,7 @@ include: "/views/**/session_level.view"
 include: "/views/**/exit_intent.view"
 include: "/views/**/second_last_intent.view"
 include: "/views/**/conversation_length.view"
+include: "/views/**/deflection.view"
 
 datagroup: qai_de_looker_training_q03617_shreya_kothavale_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -42,4 +43,11 @@ explore: session_level {
     sql_on: session_level.session_id = conversation_length.session_id ;;
     # fields: []
   }
+  join: deflection {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: session_level.session_id = deflection.session_id ;;
+    # fields: []
+  }
+
 }
