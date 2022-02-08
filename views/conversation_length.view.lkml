@@ -43,6 +43,21 @@ view: conversation_length {
     datatype: datetime
   }
 
+  dimension_group: date {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: yes
+    datatype: date
+    sql: conversation_length.session_date_time.date ;;
+  }
+
   dimension: call_duration_bucket {
     case: {
       when: {
