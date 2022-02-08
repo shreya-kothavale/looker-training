@@ -23,6 +23,11 @@ explore: dialogflow_cleaned_logs {
     sql_on: dialogflow_cleaned_logs.session_id = conversation_length.session_id ;;
     fields: [call_duration_bucket, session_id]
   }
+  join: intent_correlation {
+      type: left_outer
+      relationship: one_to_many
+      sql_on: dialogflow_cleaned_logs.response_id = intent_correlation.response_id ;;
+  }
 }
 
 explore: session_level {
@@ -50,9 +55,5 @@ explore: session_level {
     sql_on: session_level.session_id = deflection.session_id ;;
     # fields: []
   }
-
-}
-
-explore: intent_correlation {
 
 }

@@ -17,7 +17,7 @@ view: dialogflow_cleaned_logs {
       quarter,
       year
     ]
-    convert_tz: no
+    convert_tz: yes
     datatype: date
     sql: ${TABLE}.date ;;
   }
