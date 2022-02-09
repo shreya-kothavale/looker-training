@@ -3,9 +3,10 @@ view: conversation_length {
     sql:
       Select session_id, sentiment_score,
       start_time, end_time,
-      count_of_msg, session_date_time
+      count_of_msg, session_date_time, date
       from
-      (SELECT session_id, avg(sentiment_score) as sentiment_score, min( time_stamp ) as start_time, max( time_stamp ) as end_time, count(distinct response_ID) as count_of_msg, MIN( time_stamp ) as session_date_time
+      (SELECT session_id, avg(sentiment_score) as sentiment_score, min( time_stamp ) as start_time, max( time_stamp ) as end_time, count(distinct response_ID) as count_of_msg, MIN( time_stamp ) as session_date_time,
+      min(date) as date
       FROM dialogflow_cleaned_logs
       group by session_id)
       ;;
@@ -55,7 +56,6 @@ view: conversation_length {
     ]
     convert_tz: yes
     datatype: date
-    sql: conversation_length.session_date_time.date ;;
   }
 
   dimension: call_duration_bucket {
