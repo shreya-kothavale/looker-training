@@ -129,7 +129,7 @@ view: conversation_length {
 
   measure: avg_session_duration {
     type: string
-    sql: concat(cast(${avg_call_duration_min} as string),' m ',cast(${avg_call_duration_sec} as string),' s') ;;
+    sql: COALESCE(concat(cast(${avg_call_duration_min} as string),'m ',cast(${avg_call_duration_sec} as string),'s'),"0m 0s") ;;
   }
 
   measure: avg_sentiment_score {

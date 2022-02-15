@@ -143,7 +143,7 @@ view: dialogflow_cleaned_logs {
 
   measure: average_queries_per_session {
     type: number
-    sql: count(${query_text})/${total_sessions} ;;
+    sql: if(${total_sessions} > 0,count(${query_text})/${total_sessions}, 0) ;;
   }
 
   measure: date_count {
@@ -153,7 +153,7 @@ view: dialogflow_cleaned_logs {
 
   measure: average_session_per_day {
     type: number
-    sql: ${total_sessions}/${date_count} ;;
+    sql: if(${date_count} > 0, ${total_sessions}/${date_count}, 0) ;;
   }
 
   measure: average_sentiment_score {
@@ -168,6 +168,6 @@ view: dialogflow_cleaned_logs {
 
   measure: success_rate {
     type: number
-    sql: sum(if(${is_fallback},0,1))/${count} ;;
+    sql: if(${count} > 0, sum(if(${is_fallback},0,1))/${count}, 0) ;;
   }
 }
