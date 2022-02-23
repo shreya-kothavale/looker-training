@@ -11,7 +11,8 @@ include: "/views/**/intent_correlation.view"
 
 datagroup: qai_de_looker_training_q03617_shreya_kothavale_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+  max_cache_age: "every 1 hour"
+  interval_trigger: "every 1 minute"
 }
 
 persist_with: qai_de_looker_training_q03617_shreya_kothavale_default_datagroup
